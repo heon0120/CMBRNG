@@ -2,7 +2,7 @@
 Generate random number using Cosmic Microwave Background Radiation
 
 # What is it?
-이 코드는 LiveATC 오디오 스트림을 활용하여 일반적인 난수와는 차별화된 난수를 생성합니다. 스트림의 잡음 데이터를 기반으로 하여, 신뢰할 수 있는 난수로 간주될 수는 없지만 일반적인 의사난수(Pseudo-random Number)보다 독특한 특성을 가질 수 있습니다.
+본 코드는 우주배경복사가 포함된 잡음 오디오 데이터를 수집해 배열로 만든후 난수를 추출하는 코드입니다.(LiveATC에서 한적한 공항의ATC신호를 받아옴) 신뢰할 수 있는 난수로 간주될 수는 없지만 일반적인 의사난수(Pseudo-random Number)보다 독특한 특성을 가질 수 있습니다.
 
 ## 코드 설명
 
@@ -65,7 +65,7 @@ def map_to_ascii(values):
 난수를 생성하는 핵심 함수입니다.
 주어진 길이(num)의 난수를 생성하며, 유효한 결과가 나올 때까지 반복합니다.
 ```python
-def example(num):
+def generator(num):
     stream_url = "https://s1-fmt2.liveatc.net/hf_nh_11396"
     while True:
         audio_data = download_and_convert_audio_ffmpeg(stream_url, duration=0.1)
@@ -95,7 +95,8 @@ def example(num):
    ```
 2. 코드실행:
 ```python
-result = example(100)
+from generator import generator
+result = generator(100)
 print(result)
 ```
 
