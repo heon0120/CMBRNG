@@ -1,7 +1,5 @@
 import subprocess
 import numpy as np
-import librosa
-from io import BytesIO
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # LiveATC 오디오 스트림 URL
@@ -16,6 +14,7 @@ def download_and_convert_audio_ffmpeg(url, duration=1.0):
             "-f", "wav",
             "-ar", "3000",
             "-ac", "1",
+            "-threads", "4",  # 멀티 스레딩 사용
             "pipe:1"
         ]
         process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -24,9 +23,9 @@ def download_and_convert_audio_ffmpeg(url, duration=1.0):
         if process.returncode != 0:
             return None, None
 
-        # Librosa로 데이터 읽기
-        y, sr = librosa.load(BytesIO(wav_data), sr=None)
-        return y, sr
+        # Librosa 대신 numpy를 사용하여 데이터 처리
+        audio_data = np.frombuffer(wav_data, np.int16) / 32767.0
+        return audio_data, 3000
 
     except Exception:
         return None, None
@@ -116,3 +115,4 @@ class Generator:
         if workers is None:
             workers = self.workers
         return generator_function(num, workers=workers)
+
