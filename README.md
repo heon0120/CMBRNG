@@ -103,5 +103,24 @@ print(result)
 
 ## 다른 코드 설명
 
-fastgenerator(test.py): 기존코드를 병렬처리를 통하여 빠르게 연산하도록 제작하였습니다. 기본적으로 4개의 워커가 있습니다. 4개 이상부터는 step_size가 작아져 None이 반환됩니다.
+fastgenerator(test).py: 기존코드를 병렬처리를 통하여 빠르게 연산하도록 제작하였습니다. 기본적으로 4개의 워커가 있습니다. 4개 이상부터는 step_size가 작아져 None이 반환됩니다.
+
+choice_include.py: random의 choice기능을 추가하였습니다.
+```python
+from choice_include import Generator
+# Generator 클래스 사용 예시
+gen = Generator(workers=4)
+options = ["Alpha", "Bravo", "Charlie", "Delta"]
+result = Generator(workers=4).choice(options)  # options 중에서 선택
+print("Choice result:", result)
+
+```
+로 사용할수있습니다.
+
+
+출력결과 :
+```
+Choice result: Charlie
+```
+
 
